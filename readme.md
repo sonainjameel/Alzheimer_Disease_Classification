@@ -21,4 +21,12 @@ To set up the project environment to run the scripts, follow these steps:
 
 `python main.py --image_size 28 --technique hog`
 
+or
+
+`python main.py --image_size 224 --technique vgg`
+
+or 
+
+`python main.py --image_size 224 --technique hybrid`
+
 3. Note: if you want to use VGG image size must be 224. P.S. for quick evaluation with 70% accuracy you can use image size of 28 and hog feature extractor and if you want higher accuracy, have patience for 13 hours so that grid search can find best parameters when the input image size is 128.

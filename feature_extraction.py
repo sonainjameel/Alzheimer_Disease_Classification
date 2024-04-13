@@ -5,7 +5,7 @@ from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import Model
 import numpy as np
-from skimage.color import gray2rgb
+from skimage.color import gray2rgb, rgb2gray
 
 # Load VGG16 model, with weights pre-trained on ImageNet
 base_model = VGG16(weights='imagenet')
@@ -19,14 +19,13 @@ def preprocess_and_feature_extraction(images, technique='hog', image_size=(224, 
         # Resize the image first to ensure it's the correct dimensions for feature extraction
         resized_img = resize(image, image_size, anti_aliasing=True)
 
-        # Check if the image is grayscale (only one color channel)
-        if resized_img.ndim == 2 or resized_img.shape[2] == 1:
-            resized_img = gray2rgb(resized_img)  # Convert grayscale to RGB
-
         if technique == 'hog':
             # HOG feature extraction
             feat = hog(resized_img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3), block_norm='L2-Hys', visualize=False, transform_sqrt=False, feature_vector=True)
         elif technique == 'vgg' or technique == 'hybrid':
+            # Check if the image is grayscale (only one color channel)
+            if resized_img.ndim == 2 or resized_img.shape[2] == 1:
+                resized_img = gray2rgb(resized_img)  # Convert grayscale to RGB
             # Convert the image to array format for VGG16 processing
             img_array = img_to_array(resized_img)
             expanded_img = np.expand_dims(img_array, axis=0)  # Expand dims to fit model input
@@ -37,6 +36,7 @@ def preprocess_and_feature_extraction(images, technique='hog', image_size=(224, 
                 feat = vgg_feat
             elif technique == 'hybrid':
                 # Continue with HOG feature extraction for hybrid
+                resized_img = rgb2gray(resized_img)
                 hog_feat = hog(resized_img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3), block_norm='L2-Hys', visualize=False, transform_sqrt=False, feature_vector=True)
                 feat = np.concatenate((vgg_feat, hog_feat))
         else:
