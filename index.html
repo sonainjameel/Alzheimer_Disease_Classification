@@ -3,20 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning Project</title>
+    <title>Alzheimer’s Disease Classification using SVM</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>My Machine Learning Project</h1>
+        <h1>Alzheimer’s Disease Classification using SVM</h1>
     </header>
     <section>
         <h2>Project Overview</h2>
-        <p>This project is about...</p>
+        <p>This project demonstrates an Alzheimer's disease classification system using Support Vector Machines (SVM) along with various feature extraction techniques including Histogram of Oriented Gradients (HOG), VGG16 features, and a hybrid approach combining both.</p>
     </section>
     <section>
-        <h2>Documentation</h2>
-        <p>How to use the project...</p>
+        <h2>Project Structure</h2>
+        <ul>
+            <li><strong>data_loader.py:</strong> Contains the load_dataset function to load images and labels from a specified directory.</li>
+            <li><strong>feature_extraction.py:</strong> Implements the preprocess_and_feature_extraction function to extract features from images using HOG, VGG16, or a hybrid method.</li>
+            <li><strong>classifier.py:</strong> Includes the train_svm_classifier function to train an SVM classifier using the extracted features.</li>
+            <li><strong>main.py:</strong> The main script that ties everything together, processing command-line arguments, executing the feature extraction, training the classifier, and evaluating the results.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Installation</h2>
+        <p>To set up the project environment to run the scripts, follow these steps:</p>
+        <ol>
+            <li>Install the required Python packages:</li>
+                <pre><code>pip install -r requirements.txt</code></pre>
+            <li>To run the main script, use the following commands:</li>
+                <pre><code>python main.py --image_size 28 --technique hog</code></pre>
+                <pre><code>python main.py --image_size 224 --technique vgg</code></pre>
+                <pre><code>python main.py --image_size 224 --technique hybrid</code></pre>
+            <li>Note: For VGG, the image size must be 224. For quick evaluation with 70% accuracy, you can use image size of 28 and HOG feature extractor. For higher accuracy, have patience for 13 hours so that grid search can find the best parameters when the input image size is 128.</li>
+        </ol>
     </section>
     <footer>
         <p>Contact us at <a href="sonainjamil@ieee.org">sonainjamil@ieee.org</a></p>
